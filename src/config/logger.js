@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 const { createLogger, format, transports } = require('winston');
 
 const {
@@ -24,9 +25,7 @@ const logger = createLogger({
     // String interpolation
     splat(),
     timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    printf(
-      ({ level, message }) => `${timestamp}: ${level}: ${message}`,
-    ),
+    printf(({ level, message, timestamp }) => `${timestamp}: ${level}: ${message}`),
   ),
   transports: [
     new transports.Console({
