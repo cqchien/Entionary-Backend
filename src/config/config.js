@@ -1,22 +1,22 @@
-const dotenv = require("dotenv");
-const path = require("path");
-const Joi = require("joi");
+const dotenv = require('dotenv');
+const path = require('path');
+const Joi = require('joi');
 
-dotenv.config({ path: path.join(__dirname, "../../.env") });
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 // Set a schema to compare
 const envSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string()
-      .valid("production", "development", "test")
+      .valid('production', 'development', 'test')
       .required(),
     PORT: Joi.number().default(5000),
-    MONGODB_URL: Joi.string().required().description("Mongo DB url"),
+    MONGODB_URL: Joi.string().required().description('Mongo DB url'),
   })
   .unknown();
 
 const { value: envVal, error } = envSchema
-  .prefs({ errors: { label: "key" } })
+  .prefs({ errors: { label: 'key' } })
   .validate(process.env);
 
 if (error) {
