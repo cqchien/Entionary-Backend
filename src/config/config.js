@@ -11,6 +11,7 @@ const envSchema = Joi.object()
       .valid("production", "development", "test")
       .required(),
     PORT: Joi.number().default(5000),
+    MONGODB_URL: Joi.string().required().description("Mongo DB url"),
   })
   .unknown();
 
@@ -25,4 +26,13 @@ if (error) {
 module.exports = {
   env: envVal.NODE_ENV,
   port: envVal.PORT,
+  mongoose: {
+    url: envVal.MONGODB_URL,
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: true,
+    },
+  },
 };
