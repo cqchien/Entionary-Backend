@@ -1,5 +1,5 @@
 module.exports = {
-  min: 0,
-  default: 100,
-  max: 999999,
+  MIN: 0,
+  DEFAULT: 100,
+  MAX: 999999,
 };
