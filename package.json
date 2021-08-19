@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/cqchien/TripFinder-Backend#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "mongoose": "^5.13.7",
     "nodemon": "^2.0.12",
