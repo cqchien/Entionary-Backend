@@ -7,17 +7,16 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 // Set a schema to compare
 const envSchema = Joi.object()
   .keys({
-    NODE_ENV: Joi.string()
-      .valid('production', 'development', 'test')
-      .required(),
+    NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(5000),
     MONGODB_URL: Joi.string().required().description('Mongo DB url'),
+    JWT_ACCESS_EXPIRATION: Joi.number().default(30).description('minutes after which access tokens expire'),
+    JWT_REFRESH_EXPIRATION: Joi.number().default(30).description('days after which access tokens expire'),
+    JWT_SECRET: Joi.string().required().description('JWT secret key'),
   })
   .unknown();
 
-const { value: envVal, error } = envSchema
-  .prefs({ errors: { label: 'key' } })
-  .validate(process.env);
+const { value: envVal, error } = envSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
@@ -34,5 +33,10 @@ module.exports = {
       useCreateIndex: true,
       useFindAndModify: true,
     },
+  },
+  token: {
+    accessExpiration: envVal.JWT_ACCESS_EXPIRATION,
+    refreshExpiration: envVal.JWT_REFRESH_EXPIRATION,
+    secret: envVal.JWT_SECRET,
   },
 };
