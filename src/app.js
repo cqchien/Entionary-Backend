@@ -1,7 +1,9 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const status = require('http-status');
 const router = require('./routes');
+const sendException = require('./utils/sendError');
 
 const app = express();
 
@@ -18,6 +20,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.options('*', cors());
 
+// API routes
 app.use('/', router);
+
+// Send back a 404 error for any unknown api request
+app.use((req, res, next) => {
+  next(sendException(res, 'Not Found', status.NOT_FOUND));
+});
 
 module.exports = app;
