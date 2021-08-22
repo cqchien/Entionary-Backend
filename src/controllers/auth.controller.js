@@ -1,16 +1,18 @@
+const httpStatus = require('http-status');
 const createUser = require('../services/user/create.service');
 const generateAuthToken = require('../services/token/generateAuth.service');
-const returnSuccess = require('../utils/sendSuccess');
+const handleSuccess = require('../utils/successfulHandler');
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   const { body } = req;
-  const { success, data } = await createUser(res, body);
-  if (success) {
-    const user = data;
+  try {
+    const user = await createUser(body);
     const token = await generateAuthToken(user);
-    return returnSuccess(res, { user, token });
+
+    return handleSuccess(res, { user, token }, httpStatus.CREATED);
+  } catch (error) {
+    next(error);
   }
-  return data;
 };
 
 module.exports = {

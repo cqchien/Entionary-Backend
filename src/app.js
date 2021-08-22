@@ -1,9 +1,10 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const status = require('http-status');
+const httpStatus = require('http-status');
 const router = require('./routes');
-const sendException = require('./utils/sendError');
+const Exception = require('./utils/exception');
+const { convertException, handleException } = require('./middlewares/exception.middleware');
 
 const app = express();
 
@@ -25,7 +26,12 @@ app.use('/', router);
 
 // Send back a 404 error for any unknown api request
 app.use((req, res, next) => {
-  next(sendException(res, 'Not Found', status.NOT_FOUND));
+  next(new Exception(httpStatus.NOT_FOUND, 'NOT FOUND'));
 });
 
+// Convert other error to Exception
+app.use(convertException);
+
+// Handle error to send to user
+app.use(handleException);
 module.exports = app;

@@ -1,20 +1,17 @@
-const status = require('http-status');
+const httpStatus = require('http-status');
 const userModel = require('../../models/user.model');
-const returnException = require('../../utils/sendError');
+const Exception = require('../../utils/exception');
 /**
  * Create a new user
  * @param {Object} { name, avatar, email, password, role }
  * @returns Promise<userModel>
  */
-const createUser = async (res, {
+const createUser = async ({
   name, avatar, email, password, role,
 }) => {
   const user = await userModel.findOne({ email });
   if (user) {
-    return {
-      success: false,
-      data: returnException(res, 'User exists', status.CONFLICT),
-    };
+    throw new Exception(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
   const newUser = await userModel.create({
@@ -25,10 +22,7 @@ const createUser = async (res, {
     role,
   });
 
-  return {
-    success: true,
-    data: newUser,
-  };
+  return newUser;
 };
 
 module.exports = createUser;
