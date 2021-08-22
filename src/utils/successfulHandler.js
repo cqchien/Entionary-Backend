@@ -2,6 +2,7 @@
  * Format data to return to user
  * @param {*} res
  * @param {object} data
+ * @param {number} statusCode
  * @param {string} message
  * @param {*} pagination
  * @returns object{
@@ -11,11 +12,12 @@
   pagination,
 }
  */
-const returnSuccess = (res, data, message = '', pagination = {}) => res.status(200).send({
+const handleSuccess = (res, data, statusCode, message = '', pagination = {}) => res.status(statusCode).send({
   success: true,
+  statusCode,
   data,
   message,
   pagination,
 });
 
-module.exports = returnSuccess;
+module.exports = handleSuccess;
