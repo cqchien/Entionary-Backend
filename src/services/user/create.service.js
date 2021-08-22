@@ -1,6 +1,6 @@
 const status = require('http-status');
 const userModel = require('../../models/user.model');
-const returnException = require('../dataTransfer/sendError');
+const returnException = require('../../utils/sendError');
 /**
  * Create a new user
  * @param {Object} { name, avatar, email, password, role }
