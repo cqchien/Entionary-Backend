@@ -11,7 +11,7 @@ const createUser = async ({
 }) => {
   const user = await userModel.findOne({ email });
   if (user) {
-    throw new Exception(httpStatus.BAD_REQUEST, 'Email already taken');
+    throw new Exception(httpStatus.CONFLICT, 'Email already taken');
   }
 
   const newUser = await userModel.create({
