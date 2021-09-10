@@ -4,10 +4,10 @@ ENV NODE_ENV=production
 
 WORKDIR /src
 
-COPY ["package.jon", "yarn.lock*", "./"]
+COPY ["package.json", "yarn.lock*", "./"]
 
-RUN yarn add --production
+RUN yarn install --production
 
 COPY . .
 
-CMD [ "yarn", "index.js" ]
+CMD [ "yarn", "start:prod" ]

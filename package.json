@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "start:prod": "node src/index.js",
     "lint": "eslint .",
     "prettier": "prettier --check **/*.js",
     "prettier:fix": "prettier --write **/*.js",
