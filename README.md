@@ -1,5 +1,17 @@
 # TripFinder-Backend
 
+### 1. Setup this repo to start development
+
+Before start:
+- make sure docker was install
+- make sure Make was install
+- this project using node v12.16.3
+
+To setting up your environment, run below lines:
+- Run `make bootstrap` (for the first time setup)
+- Run `make up` to start docker container & start dev.
+- Happy coding :tada:
+
 ## Project Structure
 
 ```
