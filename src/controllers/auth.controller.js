@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const createUser = require('../services/user/create.service');
 const generateAuthToken = require('../services/token/generateAuth.service');
 const handleSuccess = require('../utils/successfulHandler');
-const loginWithEmail = require('../services/token/login.service');
+const loginWithEmail = require('../services/user/login.service');
 
 const register = async (req, res, next) => {
   const { body } = req;
