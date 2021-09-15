@@ -13,6 +13,8 @@ const envSchema = Joi.object()
     JWT_ACCESS_EXPIRATION: Joi.number().default(30).description('minutes after which access tokens expire'),
     JWT_REFRESH_EXPIRATION: Joi.number().default(30).description('days after which access tokens expire'),
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
+    GOOGLE_CLIENT_ID: Joi.string().required().description('Google Client Id'),
+    GOOGLE_CLIENT_SECRET: Joi.string().required().description('Google Client Secret'),
   })
   .unknown();
 
@@ -38,5 +40,9 @@ module.exports = {
     accessExpiration: envVal.JWT_ACCESS_EXPIRATION,
     refreshExpiration: envVal.JWT_REFRESH_EXPIRATION,
     secret: envVal.JWT_SECRET,
+  },
+  google: {
+    clientId: envVal.GOOGLE_CLIENT_ID,
+    clientSecret: envVal.GOOGLE_CLIENT_SECRET,
   },
 };
