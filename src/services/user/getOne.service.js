@@ -1,6 +1,4 @@
-const httpStatus = require('http-status');
 const userModel = require('../../models/user.model');
-const Exception = require('../../utils/exception');
 /**
  * find a user which have id or email
  * @param {*} {id, email}
@@ -8,12 +6,9 @@ const Exception = require('../../utils/exception');
  */
 const getOneUserByEmailOrId = async ({ id, email }) => {
   const _id = id;
-  const query = _id || email;
-  const user = await userModel.findOne({ query });
+  const query = _id ? { _id } : { email };
+  const user = await userModel.findOne(query);
 
-  if (!user) {
-    throw new Exception(httpStatus.NOT_FOUND, 'User Not Found');
-  }
   return user;
 };
 

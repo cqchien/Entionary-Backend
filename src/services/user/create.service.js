@@ -13,9 +13,8 @@ const getOneUserByEmailOrId = require('./getOne.service');
 const createUser = async ({
   name, avatar, email, password, role,
 }) => {
-  try {
-    await getOneUserByEmailOrId({ email });
-  } catch (error) {
+  const user = await getOneUserByEmailOrId({ email });
+  if (user) {
     throw new Exception(httpStatus.CONFLICT, 'Email Already Taken');
   }
 

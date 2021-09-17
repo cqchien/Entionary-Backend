@@ -9,16 +9,16 @@ const getOneUserByEmailOrId = require('../user/getOne.service');
  * @returns user
  */
 const loginWithEmail = async ({ email, password }) => {
-  try {
-    const user = await getOneUserByEmailOrId({ email });
-    const isMatchPassword = await bcrypt.compare(password, user.password);
-    if (!isMatchPassword) {
-      throw Error();
-    }
-    return user;
-  } catch (error) {
+  const user = await getOneUserByEmailOrId({ email });
+  if (!user) {
     throw new Exception(httpStatus.UNAUTHORIZED, 'Incorrect Email Or Password');
   }
+
+  const isMatchPassword = await bcrypt.compare(password, user.password);
+  if (!isMatchPassword) {
+    throw new Exception(httpStatus.UNAUTHORIZED, 'Incorrect Email Or Password');
+  }
+  return user;
 };
 
 module.exports = loginWithEmail;
