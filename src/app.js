@@ -2,14 +2,14 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const httpStatus = require('http-status');
-const GoogleStrategy = require('passport-google-oauth20');
-const passport = require('passport');
 const router = require('./routes');
 const Exception = require('./utils/exception');
 const { convertException, handleException } = require('./middlewares/exception.middleware');
-const { google } = require('./config/config');
 
 const app = express();
+
+// Config Passport
+require('./config/passport');
 
 // Set security HTTP headers
 app.use(helmet());
@@ -23,21 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 // enable cors
 app.use(cors());
 app.options('*', cors());
-
-// Config Passport Strategy
-// Config Google Strategy
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: google.clientId,
-      clientSecret: google.clientSecret,
-      callbackURL: '/login-gg/callback',
-      scope: ['profile'],
-      // state: true,
-    },
-    (accessToken, refreshToken, profile, done) => done(null, profile),
-  ),
-);
 
 // API routes
 app.use('/', router);
