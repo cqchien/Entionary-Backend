@@ -1,8 +1,9 @@
 const httpStatus = require('http-status');
 const bcrypt = require('bcrypt');
-const userModel = require('../../models/user.model');
 const Exception = require('../../utils/exception');
 const { SALT } = require('../../constant/bcrypt');
+const userModel = require('../../models/user.model');
+const getOneUserByEmailOrId = require('./getOne.service');
 
 /**
  * Create a new user
@@ -12,10 +13,10 @@ const { SALT } = require('../../constant/bcrypt');
 const createUser = async ({
   name, avatar, email, password, role,
 }) => {
-  const user = await userModel.findOne({ email });
-
-  if (user) {
-    throw new Exception(httpStatus.CONFLICT, 'Email already taken');
+  try {
+    await getOneUserByEmailOrId({ email });
+  } catch (error) {
+    throw new Exception(httpStatus.CONFLICT, 'Email Already Taken');
   }
 
   const hashPassword = bcrypt.hashSync(password, SALT);

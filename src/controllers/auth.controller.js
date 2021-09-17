@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const createUser = require('../services/user/create.service');
 const generateAuthToken = require('../services/token/generateAuth.service');
 const handleSuccess = require('../utils/successfulHandler');
-const loginWithEmail = require('../services/user/login.service');
+const loginWithEmail = require('../services/auth/login.service');
 
 const register = async (req, res, next) => {
   const { body } = req;
@@ -27,7 +27,16 @@ const login = async (req, res, next) => {
   }
 };
 
+const loginWithSocialNetwork = async (req, res, next) => {
+  const { user } = req;
+  try {
+    const userFromSocialNetwork = await loginWithSocialNetworkAccount(user);
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = {
   register,
   login,
+  loginWithSocialNetwork,
 };
