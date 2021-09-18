@@ -1,4 +1,4 @@
-# TripFinder-Backend
+# Entionary-Backend
 
 ### 1. Setup this repo to start development
 
