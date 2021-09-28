@@ -15,6 +15,8 @@ const envSchema = Joi.object()
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
     GOOGLE_CLIENT_ID: Joi.string().required().description('Google Client Id'),
     GOOGLE_CLIENT_SECRET: Joi.string().required().description('Google Client Secret'),
+    FACEBOOK_CLIENT_ID: Joi.string().required().description('Facebook Client Id'),
+    FACEBOOK_CLIENT_SECRET: Joi.string().required().description('FacebookClient Secret'),
   })
   .unknown();
 
@@ -44,5 +46,9 @@ module.exports = {
   google: {
     clientId: envVal.GOOGLE_CLIENT_ID,
     clientSecret: envVal.GOOGLE_CLIENT_SECRET,
+  },
+  facebook: {
+    clientId: envVal.FACEBOOK_CLIENT_ID,
+    clientSecret: envVal.FACEBOOK_CLIENT_SECRET,
   },
 };

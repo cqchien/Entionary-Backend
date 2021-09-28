@@ -4,7 +4,7 @@ const createUser = require('../user/create.service');
 const getOneUserByEmailOrId = require('../user/getOne.service');
 
 const loginWithSocialNetworkAccount = async (user) => {
-  if (!user) {
+  if (!user || !user?.email) {
     throw new Exception(httpStatus.UNAUTHORIZED, 'Incorrect Email Or Password');
   }
   const { email, name, avatar } = user;

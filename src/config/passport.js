@@ -1,7 +1,36 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-token').Strategy;
-const { google } = require('./config');
+const FacebookStrategy = require('passport-facebook-token');
+const { google, facebook } = require('./config');
 
+// FACEBOOK Login Strategy
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: facebook.clientId,
+      clientSecret: facebook.clientSecret,
+      fbGraphVersion: 'v3.0',
+    },
+
+    (accessToken, refreshToken, profile, done) => {
+      try {
+        if (!profile) {
+          done(null, null);
+        }
+        const { name, email } = profile._json;
+        done(null, {
+          name,
+          email,
+          avatar: profile.photos[0]?.value,
+        });
+      } catch (error) {
+        done(error, null);
+      }
+    },
+  ),
+);
+
+// GOOGLE Login Strategy
 passport.use(
   // We must register JS URL in console developer Google. With localhost, we must register http://localhost and http://localhost:5001
   // With passport-google-token we can receive access_token from body of POST req

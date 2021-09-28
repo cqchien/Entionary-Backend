@@ -10,5 +10,6 @@ router.post('/register', validate(registerValidationSchema), register);
 router.post('/login', validate(loginValidationSchema), login);
 
 router.post('/login-gg', passport.authenticate('google-token', { session: false }), loginWithSocialNetwork);
+router.post('/login-fb', passport.authenticate('facebook-token', { session: false }), loginWithSocialNetwork);
 
 module.exports = router;
