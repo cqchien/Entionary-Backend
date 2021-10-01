@@ -2,15 +2,18 @@ const moment = require('moment');
 const httpStatus = require('http-status');
 const getRefreshToken = require('./getRefreshToken.service');
 const tokenTypes = require('../../constant/token');
-const { token: tokenConfig } = require('../../config/config');
+const { token: tokenConfig, token } = require('../../config/config');
 const generateToken = require('./generate.service');
 const Exception = require('../../utils/exception');
+const verifyToken = require('../../utils/verifyToken');
 
 const getNewAccessToken = async ({ refreshToken }) => {
   const refreshTokenInfo = await getRefreshToken(refreshToken);
   if (!refreshTokenInfo) {
     throw new Exception(httpStatus.NOT_FOUND, 'Token Is Invalid');
   }
+
+  await verifyToken(refreshToken, token.secret);
 
   const userId = refreshTokenInfo.user._id;
 
