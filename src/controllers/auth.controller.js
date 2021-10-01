@@ -42,12 +42,12 @@ const loginWithSocialNetwork = async (req, res, next) => {
 
 const getAccessToken = async (req, res, next) => {
   try {
-    const { refreshToken } = req;
+    const { body } = req;
     // get refreshtoken in db token
     // get user in this refresh token
     // create new access token
-    const token = await getNewAccessToken({ refreshToken });
-    return handleSuccess(res, { token }, httpStatus.OK);
+    const token = await getNewAccessToken(body);
+    return handleSuccess(res, { accessToken: token }, httpStatus.OK);
   } catch (error) {
     next(error);
   }
