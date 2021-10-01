@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const Exception = require('../../utils/exception');
 const createUser = require('../user/create.service');
-const getOneUserByEmailOrId = require('../user/getOne.service');
+const getUserByEmailOrId = require('../user/getOne.service');
 
 const loginWithSocialNetworkAccount = async (user) => {
   if (!user || !user?.email) {
@@ -9,7 +9,7 @@ const loginWithSocialNetworkAccount = async (user) => {
   }
   const { email, name, avatar } = user;
 
-  const userInDB = await getOneUserByEmailOrId({ email });
+  const userInDB = await getUserByEmailOrId({ email });
   if (userInDB) {
     return userInDB;
   }

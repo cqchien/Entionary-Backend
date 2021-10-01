@@ -4,7 +4,7 @@ const userModel = require('../../models/user.model');
  * @param {*} {id, email}
  * @returns user
  */
-const getOneUserByEmailOrId = async ({ id, email }) => {
+const getUserByEmailOrId = async ({ id, email }) => {
   const _id = id;
   const query = _id ? { _id } : { email };
   const user = await userModel.findOne(query);
@@ -12,4 +12,4 @@ const getOneUserByEmailOrId = async ({ id, email }) => {
   return user;
 };
 
-module.exports = getOneUserByEmailOrId;
+module.exports = getUserByEmailOrId;
