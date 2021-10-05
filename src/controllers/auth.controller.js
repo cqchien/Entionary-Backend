@@ -23,7 +23,7 @@ const login = async (req, res, next) => {
   try {
     const user = await loginWithEmail(body);
     const token = await generateAuthToken(user);
-    return handleSuccess(res, { token }, httpStatus.OK);
+    return handleSuccess(res, { token }, httpStatus.CREATED);
   } catch (error) {
     next(error);
   }
@@ -34,7 +34,7 @@ const loginWithSocialNetwork = async (req, res, next) => {
   try {
     const userFromSocialNetwork = await loginWithSocialNetworkAccount(user);
     const token = await generateAuthToken(userFromSocialNetwork);
-    return handleSuccess(res, { token }, httpStatus.OK);
+    return handleSuccess(res, { token }, httpStatus.CREATED);
   } catch (error) {
     next(error);
   }
@@ -47,7 +47,7 @@ const getAccessToken = async (req, res, next) => {
     // get user in this refresh token
     // create new access token
     const token = await getNewAccessToken(body);
-    return handleSuccess(res, { accessToken: token }, httpStatus.OK);
+    return handleSuccess(res, { accessToken: token }, httpStatus.CREATED);
   } catch (error) {
     next(error);
   }

@@ -7,7 +7,8 @@ const userModel = require('../../models/user.model');
 const getUserByEmailOrId = async ({ id, email }) => {
   const _id = id;
   const query = _id ? { _id } : { email };
-  const user = await userModel.findOne(query);
+  // get all data from table without password
+  const user = await userModel.findOne(query, { password: 0 });
 
   return user;
 };

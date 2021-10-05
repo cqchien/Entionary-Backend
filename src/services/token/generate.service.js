@@ -16,7 +16,7 @@ const generateToken = (userId, type, expires) => {
   // TODO: Set payload to assign to token
   // NOTE: moment().unix(): to create a moment from a Unix timestamp
   const payload = {
-    sub: userId,
+    id: userId,
     exp: expires.unix(),
     type,
   };
