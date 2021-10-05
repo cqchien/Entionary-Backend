@@ -8,12 +8,16 @@ const Exception = require('../../utils/exception');
 const verifyToken = require('../../utils/verifyToken');
 
 const getNewAccessToken = async ({ refreshToken }) => {
-  const refreshTokenInfo = await getRefreshToken(refreshToken);
-  if (!refreshTokenInfo) {
-    throw new Exception(httpStatus.NOT_FOUND, 'Token Is Invalid');
+  try {
+    await verifyToken(refreshToken, token.secret);
+  } catch (error) {
+    throw new Exception(httpStatus.UNAUTHORIZED, 'Token Is Invalid');
   }
 
-  await verifyToken(refreshToken, token.secret);
+  const refreshTokenInfo = await getRefreshToken(refreshToken);
+  if (!refreshTokenInfo) {
+    throw new Exception(httpStatus.NOT_FOUND, 'No Token Provided.');
+  }
 
   const userId = refreshTokenInfo.user._id;
 

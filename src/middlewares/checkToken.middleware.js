@@ -4,19 +4,18 @@ const Exception = require('../utils/exception');
 const verifyToken = require('../utils/verifyToken');
 
 const checkToken = async (req, res, next) => {
-  const token = req.body.token || req.query.token || req.headers['x-access-token'];
+  const token = req.headers?.authorization?.split(' ')[1];
 
-  try {
-    if (token) {
+  if (!token) {
+    next(new Exception(httpStatus.FORBIDDEN, 'No Token Provided.'));
+  } else {
+    try {
       const decode = await verifyToken(token, config.token.secret);
       req.user = decode;
-
       next();
-    } else {
-      throw new Exception(httpStatus.FORBIDDEN, 'No Token Provided.');
+    } catch (error) {
+      next(new Exception(httpStatus.UNAUTHORIZED, 'Token Is Invalid'));
     }
-  } catch (error) {
-    next(error);
   }
 };
 

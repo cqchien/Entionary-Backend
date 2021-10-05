@@ -29,7 +29,7 @@ app.use('/', router);
 
 // Send back a 404 error for any unknown api request
 app.use((req, res, next) => {
-  next(new Exception(httpStatus.NOT_FOUND, 'NOT FOUND'));
+  next(new Exception(httpStatus.NOT_FOUND, 'API Not Found'));
 });
 
 // Convert other error to Exception
