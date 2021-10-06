@@ -8,7 +8,7 @@ const getUserByEmailOrId = async ({ id, email }) => {
   const _id = id;
   const query = _id ? { _id } : { email };
   // get all data from table without password
-  const user = await userModel.findOne(query, { password: 0 });
+  const user = await userModel.findOne(query);
 
   return user;
 };
