@@ -3,6 +3,7 @@ const validator = require('validator');
 const roles = require('../constant/role');
 const coin = require('../constant/coin');
 const star = require('../constant/star');
+const verifyCode = require('../constant/verifyCode');
 
 const userSchema = new Schema({
   name: {
@@ -52,9 +53,15 @@ const userSchema = new Schema({
       ref: 'flashcard',
     },
   ],
-  isEmailVerified: {
-    type: Boolean,
-    default: false,
+  verifyCode: {
+    code: {
+      type: Number,
+      maximum: verifyCode.MAX,
+    },
+    updatedAt: {
+      type: Date,
+      default: new Date(),
+    },
   },
 });
 
