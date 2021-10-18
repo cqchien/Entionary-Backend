@@ -4,6 +4,7 @@ const roles = require('../constant/role');
 const coin = require('../constant/coin');
 const star = require('../constant/star');
 const verifyCode = require('../constant/verifyCode');
+const password = require('../constant/password');
 
 const userSchema = new Schema({
   name: {
@@ -28,7 +29,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    minLength: 8,
+    minLength: password.MIN,
   },
   role: {
     type: String,
@@ -56,7 +57,8 @@ const userSchema = new Schema({
   verifyCode: {
     code: {
       type: Number,
-      maximum: verifyCode.MAX,
+      maximum: verifyCode.LENGTH,
+      minimum: verifyCode.LENGTH,
     },
     updatedAt: {
       type: Date,

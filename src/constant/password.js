@@ -1,3 +1,3 @@
 module.exports = {
-  LENGTH: 6,
+  MIN: 8,
 };
