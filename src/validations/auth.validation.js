@@ -12,7 +12,12 @@ const loginValidationSchema = Joi.object().keys({
   password: Joi.string().required(),
 });
 
+const getAccessTokenValidationSchema = Joi.object().keys({
+  refreshToken: Joi.string().required(),
+});
+
 module.exports = {
   registerValidationSchema,
   loginValidationSchema,
+  getAccessTokenValidationSchema,
 };
