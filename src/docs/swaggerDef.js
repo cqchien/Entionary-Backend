@@ -14,6 +14,9 @@ const swaggerDef = {
     {
       url: `http://localhost:${config.port}`,
     },
+    {
+      url: `${config.server.URL_DEPLOY}`,
+    },
   ],
 };
 

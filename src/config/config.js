@@ -9,6 +9,7 @@ const envSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(5000),
+    URL_DEPLOY: Joi.string().description('URL which server is deployed.'),
     MONGODB_URL: Joi.string().required().description('Mongo DB url'),
     JWT_ACCESS_EXPIRATION: Joi.number().default(30).description('minutes after which access tokens expire'),
     JWT_REFRESH_EXPIRATION: Joi.number().default(30).description('days after which access tokens expire'),
@@ -29,6 +30,9 @@ if (error) {
 module.exports = {
   env: envVal.NODE_ENV,
   port: envVal.PORT,
+  server: {
+    URL_DEPLOY: envVal.URL_DEPLOY,
+  },
   mongoose: {
     url: envVal.MONGODB_URL,
     options: {
