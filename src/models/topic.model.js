@@ -1,14 +1,11 @@
 const { Schema, model } = require('mongoose');
 
-const flashcardSchema = new Schema(
+const topicSchema = new Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
       trim: true,
-    },
-    picture: {
-      type: String,
     },
     words: [
       {
@@ -22,16 +19,13 @@ const flashcardSchema = new Schema(
         ref: 'sentence',
       },
     ],
-    stars: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-      },
-    ],
+    icon: {
+      type: String,
+    },
   },
   { timestamps: true },
 );
 
-const flashcardModel = model('flashcard', flashcardSchema, 'flashcard');
+const topicModel = model('topic', topicSchema, 'topic');
 
-module.exports = flashcardModel;
+module.exports = topicModel;
