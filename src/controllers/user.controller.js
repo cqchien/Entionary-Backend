@@ -36,7 +36,7 @@ const resetPassword = async (req, res, next) => {
     // Update password
     await updateUser(userDetail._id, { password });
 
-    return handleSuccess(res, { ...userDetail, password }, httpStatus.OK);
+    return handleSuccess(res, {}, httpStatus.NO_CONTENT);
   } catch (error) {
     next(error);
   }
