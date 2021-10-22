@@ -18,8 +18,8 @@ const envSchema = Joi.object()
     GOOGLE_CLIENT_SECRET: Joi.string().required().description('Google Client Secret'),
     FACEBOOK_CLIENT_ID: Joi.string().required().description('Facebook Client Id'),
     FACEBOOK_CLIENT_SECRET: Joi.string().required().description('FacebookClient Secret'),
-    NODE_MAILER_USERNAME: Joi.string().require().description('Email username'),
-    NODE_MAILER_PASSWORD: Joi.string().require().description('Email password'),
+    NODE_MAILER_USERNAME: Joi.string().required().description('Email username'),
+    NODE_MAILER_PASSWORD: Joi.string().required().description('Email password'),
   })
   .unknown();
 
@@ -37,7 +37,7 @@ module.exports = {
   },
   mail: {
     username: envVal.NODE_MAILER_USERNAME,
-    password: envVal.NODE_MAILER_USERNAME,
+    password: envVal.NODE_MAILER_PASSWORD,
   },
   mongoose: {
     url: envVal.MONGODB_URL,

@@ -6,7 +6,7 @@ const Exception = require('../utils/exception');
 const handleSuccess = require('../utils/successfulHandler');
 const verifyCode = require('../constant/verifyCode');
 const generateVerifyCode = require('../utils/generateVerifyCode');
-const resetPasswordMailContent = require('../utils/templateMail');
+const { resetPasswordMailContent } = require('../utils/templateMail');
 const sendEmail = require('../config/mail');
 const saveVerifyCode = require('../services/user/saveVerifyCode.service');
 
@@ -47,7 +47,7 @@ const sendVerifyCode = async (req, res, next) => {
 
     // Save code in database
     await saveVerifyCode(email, code);
-    return handleSuccess(res, {}, httpStatus.NO_CONTENT, 'Send Code Successfully, Check Your Email, Pls');
+    return handleSuccess(res, {}, httpStatus.OK, 'Send Code Successfully, Check Your Email, Pls');
   } catch (error) {
     next(error);
   }
@@ -71,7 +71,7 @@ const resetPassword = async (req, res, next) => {
     // Update password
     await updateUser(userDetail._id, { password });
 
-    return handleSuccess(res, {}, httpStatus.NO_CONTENT, 'Reset Password Successfully');
+    return handleSuccess(res, {}, httpStatus.OK, 'Reset Password Successfully');
   } catch (error) {
     next(error);
   }
