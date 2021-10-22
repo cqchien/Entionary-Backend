@@ -16,8 +16,13 @@ const getAccessTokenValidationSchema = Joi.object().keys({
   refreshToken: Joi.string().required(),
 });
 
+const loginSocialValidationSchema = Joi.object().keys({
+  access_token: Joi.string().required(),
+});
+
 module.exports = {
   registerValidationSchema,
   loginValidationSchema,
   getAccessTokenValidationSchema,
+  loginSocialValidationSchema,
 };
