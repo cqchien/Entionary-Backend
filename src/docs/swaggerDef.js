@@ -17,12 +17,12 @@ const swaggerDef = {
   },
   servers: [
     {
-      url: `http://localhost:${config.port}`,
-      description: 'Local',
-    },
-    {
       url: `${config.server.URL_DEPLOY}`,
       description: 'Online',
+    },
+    {
+      url: `http://localhost:${config.port}`,
+      description: 'Local',
     },
   ],
   tags: [
