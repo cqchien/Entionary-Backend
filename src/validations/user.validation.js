@@ -7,6 +7,11 @@ const resetPasswordValidationSchema = Joi.object().keys({
   verifyCode: Joi.string().required().custom(verifyCode),
 });
 
+const sendVerifyCodeValidationSchema = Joi.object().keys({
+  email: Joi.string().required().email(),
+});
+
 module.exports = {
   resetPasswordValidationSchema,
+  sendVerifyCodeValidationSchema,
 };
