@@ -4,6 +4,11 @@ const getUserByEmailOrId = require('../services/user/getOne.service');
 const updateUser = require('../services/user/update.service');
 const Exception = require('../utils/exception');
 const handleSuccess = require('../utils/successfulHandler');
+const verifyCode = require('../constant/verifyCode');
+const generateVerifyCode = require('../utils/generateVerifyCode');
+const resetPasswordMailContent = require('../utils/templateMail');
+const sendEmail = require('../config/mail');
+const saveVerifyCode = require('../services/user/saveVerifyCode.service');
 
 const getUserDetail = async (req, res, next) => {
   const { user } = req;
@@ -13,6 +18,36 @@ const getUserDetail = async (req, res, next) => {
       throw new Exception(httpStatus.NOT_FOUND, 'User Not Found');
     }
     return handleSuccess(res, { user: userDetail }, httpStatus.OK);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const sendVerifyCode = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    // Check email
+    const userDetail = await getUserByEmailOrId({ email });
+    if (!userDetail) {
+      throw new Exception(httpStatus.NOT_FOUND, 'User Not Found');
+    }
+
+    // Get Code
+    const code = generateVerifyCode(verifyCode.LENGTH);
+
+    // Set content to send
+    const mailContent = {
+      to: email,
+      subject: 'Entionary - Code To Confirm Password',
+      htmlContent: resetPasswordMailContent(code),
+    };
+
+    // Send Email
+    await sendEmail(mailContent);
+
+    // Save code in database
+    await saveVerifyCode(email, code);
+    return handleSuccess(res, {}, httpStatus.NO_CONTENT, 'Send Code Successfully, Check Your Email, Pls');
   } catch (error) {
     next(error);
   }
@@ -36,7 +71,7 @@ const resetPassword = async (req, res, next) => {
     // Update password
     await updateUser(userDetail._id, { password });
 
-    return handleSuccess(res, {}, httpStatus.NO_CONTENT);
+    return handleSuccess(res, {}, httpStatus.NO_CONTENT, 'Reset Password Successfully');
   } catch (error) {
     next(error);
   }
@@ -45,4 +80,5 @@ const resetPassword = async (req, res, next) => {
 module.exports = {
   getUserDetail,
   resetPassword,
+  sendVerifyCode,
 };
