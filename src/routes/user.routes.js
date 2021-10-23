@@ -6,9 +6,11 @@ const { resetPasswordValidationSchema, sendVerifyCodeValidationSchema } = requir
 
 const router = Router();
 
+router.patch('/reset-password', validate(resetPasswordValidationSchema), resetPassword);
+router.patch('/send-code', validate(sendVerifyCodeValidationSchema), sendVerifyCode);
+
 router.use(checkToken);
 
 router.get('/me', getUserDetail);
-router.patch('/reset-password', validate(resetPasswordValidationSchema), resetPassword);
-router.patch('/send-code', validate(sendVerifyCodeValidationSchema), sendVerifyCode);
+
 module.exports = router;

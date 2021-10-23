@@ -13,9 +13,7 @@ const { token: tokenConfig } = require('../config/config');
 const generateToken = require('../services/token/generate.service');
 
 const register = async (req, res, next) => {
-  const {
-    email, avatar, password, role,
-  } = req.body;
+  const { email, password, name } = req.body;
   try {
     // Check Email
     const user = await getUserByEmailOrId({ email });
@@ -26,9 +24,8 @@ const register = async (req, res, next) => {
     // Create new User
     const newUser = await createUser({
       email,
-      avatar,
+      name,
       password,
-      role,
     });
 
     // Create Token
