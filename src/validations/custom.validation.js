@@ -14,7 +14,7 @@ const password = (value, helpers) => {
 };
 
 const verifyCode = (value, helpers) => {
-  if (value.length !== verifyCodeLength.LENGTH) {
+  if (value.toString().length !== verifyCodeLength.LENGTH) {
     return helpers.message(`Verify code must have ${verifyCodeLength.LENGTH} characters`);
   }
 };
