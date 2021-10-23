@@ -20,7 +20,7 @@ const sendEmail = async ({ to, subject, htmlContent }) => {
   // Set mail options: from, to, subject, etc
   const mailOptions = {
     // sender
-    from: 'Entionary',
+    from: 'Entionary - <no-reply@accounts.entionary.herokuapp.com>',
     // Receiver
     to,
     // Subject

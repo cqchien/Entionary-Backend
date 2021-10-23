@@ -1,26 +1,26 @@
 // Set Template Content
 // Set Header
-const mailHeader = `<h1 style="color: #018c4c; font-size: 48px; border-bottom: solid 2px #ccc;padding-bottom: 10px">
-      Entionary - Learn English<br />
-    </h1>`;
+const mailHeader = `<h2 style="color: #018c4c; font-size: 30px; border-bottom: solid 2px #ccc;padding-bottom: 10px">
+      Entionary - Learn English Application<br />
+    </h2>`;
 // Set Footer
-const mailFooter = `<h3 style="color: red">
+const mailFooter = `<h4 style="color: red">
         Warming: Do not give the code to any one, it may lead to lose your account.<br />
         The code is only valid for <i>10 minutes </i> when you receive this mail.
-    </h3>
+    </h4>
     <h1>Best Regard</h1>`;
 
 // Content to reset Password
 const resetPasswordMailContent = (code) => `<div>
     ${mailHeader}
-    <h2 style="padding: 10px 0; margin-bottom: 10px;">
+    <h3 style="padding: 10px 0; margin-bottom: 10px;">
         Dear you,<br />
         Entionary has received your request about resetting the password.<br />
         Don't worry about that, Please enter this code to set new password:
-    </h2>
-    <h1 style="background: #eee;padding: 10px;">
+    </h3>
+    <h2 style="background: #eee;padding: 10px;">
       <i><b>${code}</b></i>
-    </h1>
+    </h2>
     ${mailFooter}
   </div>`;
 
