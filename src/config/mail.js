@@ -4,6 +4,7 @@ const logger = require('./logger');
 
 // config SMTP options
 const options = {
+  service: 'Gmail',
   host: 'smtp.gmail.com',
   port: 587,
   secure: false,
