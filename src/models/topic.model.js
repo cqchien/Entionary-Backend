@@ -6,6 +6,7 @@ const topicSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     words: [
       {
@@ -19,9 +20,6 @@ const topicSchema = new Schema(
         ref: 'sentence',
       },
     ],
-    icon: {
-      type: String,
-    },
   },
   { timestamps: true },
 );

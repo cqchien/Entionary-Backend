@@ -10,12 +10,21 @@ const flashcardSchema = new Schema(
     picture: {
       type: String,
     },
+    displayMode: {
+      type: String,
+      enum: ['PUBLIC', 'PRIVATE'],
+      default: 'PUBLIC',
+    },
     words: [
       {
         type: Schema.Types.ObjectId,
         ref: 'word',
       },
     ],
+    topic: {
+      type: Schema.Types.ObjectId,
+      ref: 'topic',
+    },
     sentences: [
       {
         type: Schema.Types.ObjectId,
