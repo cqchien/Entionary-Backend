@@ -3,6 +3,7 @@ const config = require('../config/config');
 const authRoute = require('./auth.routes');
 const docsRoute = require('./docs.routes');
 const userRoute = require('./user.routes');
+const flashcardRoute = require('./flashcard.routes');
 
 const router = Router();
 
@@ -14,6 +15,10 @@ const defaultRoutes = [
   {
     path: '/user',
     route: userRoute,
+  },
+  {
+    path: '/flashcard',
+    route: flashcardRoute,
   },
 ];
 
