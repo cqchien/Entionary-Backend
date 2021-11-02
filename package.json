@@ -1,5 +1,5 @@
 {
-  "name": "tripfinder-backend",
+  "name": "Entionary-backend",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cqchien/TripFinder-Backend.git"
+    "url": "git+https://github.com/cqchien/Entionary-Backend.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cqchien/TripFinder-Backend/issues"
+    "url": "https://github.com/cqchien/Entionary-Backend/issues"
   },
-  "homepage": "https://github.com/cqchien/TripFinder-Backend#readme",
+  "homepage": "https://github.com/cqchien/Entionary-Backend#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
