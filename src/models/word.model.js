@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const wordSchema = new Schema(
   {
-    content: {
+    word: {
       type: String,
       required: true,
       trim: true,
