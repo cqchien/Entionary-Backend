@@ -42,10 +42,10 @@ const login = async (req, res, next) => {
   try {
     // check Email
     const user = await getUserByEmailOrId({ email });
-
+    const passUser = user?.password ? user.password : '';
     // check password whether match or not
-    const isMatchPassword = await bcrypt.compare(password, user?.password);
-    if (!isMatchPassword || !user) {
+    const isMatchPassword = await bcrypt.compare(password, passUser);
+    if (!isMatchPassword) {
       throw new Exception(httpStatus.UNAUTHORIZED, 'Incorrect Email Or Password');
     }
 
