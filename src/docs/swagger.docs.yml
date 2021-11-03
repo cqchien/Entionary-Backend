@@ -119,10 +119,7 @@ paths:
       responses:
         '200':
           summary: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Data'
+          description: Reset Password Successfully
         '400':
           description: Bad Request
         '404':
@@ -148,10 +145,41 @@ paths:
       responses:
         '200':
           summary: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Data'
+          description: Send Code Successfully, Check Your Email, Pls
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Server Interval
+
+  /flashcard:
+    post: 
+      summary: Create New Flashcard
+      tags:
+        - flashcard
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                picture:
+                  type: string
+                topicTitle:
+                  type: string
+                isPublic:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          summary: OK
+          description: Send Code Successfully, Check Your Email, Pls
         '400':
           description: Bad Request
         '404':
