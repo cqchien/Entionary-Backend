@@ -10,10 +10,9 @@ const flashcardSchema = new Schema(
     picture: {
       type: String,
     },
-    displayMode: {
-      type: String,
-      enum: ['PUBLIC', 'PRIVATE'],
-      default: 'PUBLIC',
+    isPublic: {
+      type: Boolean,
+      default: true,
     },
     words: [
       {

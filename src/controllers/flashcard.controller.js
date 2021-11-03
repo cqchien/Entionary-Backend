@@ -7,24 +7,25 @@ const handleSuccess = require('../utils/successfulHandler');
 const createNewFlashcard = async (req, res, next) => {
   try {
     const {
-      name, picture, topicId, topicTitle, displayMode,
+      name, picture, topicTitle, isPublic,
     } = req.body;
     // check the exist of topic
-    let topic = await getOneTopicByTitleOrId({ id: topicId });
+    let topic = await getOneTopicByTitleOrId({ title: topicTitle });
+
     // If the topic not exist -> create new topic
     if (!topic) {
       topic = await createTopic({ title: topicTitle });
     }
 
     // Create new Flashcard
-    const flashcard = await createFlashcard({
+    await createFlashcard({
       name,
       picture,
-      displayMode,
+      isPublic,
       topicId: topic._id,
     });
 
-    return handleSuccess(res, { flashcard: { ...flashcard, topic } }, httpStatus.CREATED);
+    return handleSuccess(res, {}, httpStatus.CREATED, 'Create Flashcard Successfully');
   } catch (error) {
     next(error);
   }
