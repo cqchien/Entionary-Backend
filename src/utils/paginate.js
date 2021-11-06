@@ -27,7 +27,7 @@
 // Plugins are a tool for reusing logic in multiple schemas.
 // Suppose you have several models in your database and want to add a paginate property to each one.
 // Just create a plugin once and apply it to each Schema:
-const paginate = async (schema = '') => {
+const paginate = async (schema) => {
   // add static functions to your model.
   // sort format: (name:DESC,day:asc)
   // eslint-disable-next-line no-param-reassign
@@ -47,7 +47,7 @@ const paginate = async (schema = '') => {
 
     const docsCountPromise = model.countDocuments().exec();
 
-    const docsFindPromise = model.find().sort(sortBy).limit(limit).skip(skip);
+    const docsFindPromise = model.find().sort(sort).limit(limit).skip(skip);
 
     // handle populate
     // example data: 'flashcard.topic.card , flashcard.word.sentence'
@@ -80,7 +80,7 @@ const paginate = async (schema = '') => {
       hasNextPage: page < pageCount,
     };
 
-    return { items, pageMetaData };
+    return { docs, pageMetaData };
   };
 };
 
