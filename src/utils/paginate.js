@@ -1,21 +1,87 @@
-const paginate = async ({ page, take, model }) => {
-  const skip = (page - 1) * take;
+// const orderConstant = require('../constant/sort');
 
-  const items = await model.find().limit(parseInt(take, 10)).skip(skip);
+// // Format sort
+// // sortBy  = 'name:DESC,day:asc'
+// // result: '-name day'
+// const formatSort = (sortBy) => {
+//   let sort = '';
+//   if (sortBy) {
+//     // ["name:DESC", "day:asc"]
+//     const sortingCriteria = sortBy.split(',').map((sortOption) => {
+//       // result: ["name": "DESC"]
+//       // assign key: "name"
+//       // assign order: "DESC"
+//       const [key, order] = sortOption.split(':');
+//       const signature = order === orderConstant.DESC ? '-' : '';
+//       // return '-name'
+//       return signature + key;
+//     });
+//     sort = sortingCriteria.join(' ');
+//   } else {
+//     sort = 'createdAt';
+//   }
+//   return sort;
+// };
 
-  const itemsCount = await model.countDocuments();
-  const pageCount = Math.ceil(itemsCount / take);
+// plugin for mongoose schema
+// Plugins are a tool for reusing logic in multiple schemas.
+// Suppose you have several models in your database and want to add a paginate property to each one.
+// Just create a plugin once and apply it to each Schema:
+const paginate = async (schema = '') => {
+  // add static functions to your model.
+  // sort format: (name:DESC,day:asc)
+  // eslint-disable-next-line no-param-reassign
+  schema.static.paginate = async ({ page, take, sortBy, population }) => {
+    // format sort to fit with params for .sort(params) in mongoose
+    // params format: '-name day'. It means: name:DESC and day:asc.
+    // - means DESC
+    // '' means acs
+    // const sort = formatSort(sortBy);
 
-  const pageMetaData = {
-    page: parseInt(page, 10),
-    take: parseInt(take, 10),
-    itemsCount,
-    pageCount,
-    hasPreviousPage: page > 1,
-    hasNextPage: page < pageCount,
+    // if sorBy = {name: 'asc', day: 'desc'}, you dont need to format.
+    const sort = sortBy ? sortBy : { createdAt: 'desc' };
+
+    const limit = take && parseInt(take, 10) > 0 ? parseInt(take, 10) : 7;
+    const page = page && parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
+    const skip = (page - 1) * take;
+
+    const docsCountPromise = model.countDocuments().exec();
+
+    const docsFindPromise = model.find().sort(sortBy).limit(limit).skip(skip);
+
+    // handle populate
+    // example data: 'flashcard.topic.card , flashcard.word.sentence'
+    // data to populate:
+    // [
+    //   { path: 'flashcard', populate: { path: 'topic', populate: 'card ' } },
+    //   { path: ' flashcard', populate: { path: 'word', populate: 'sentence' }}
+    // ]
+    let populateOptions;
+    if (population) {
+      populateOptions = population.split(',').map((populationOption) => {
+        return populationOption
+          .split('.')
+          .reverse()
+          .reduce((a, b) => ({ path: b, populate: a }));
+      });
+    }
+    docsFindPromise.populate(populateOptions);
+
+    const [docsCount, docs] = await Promise.all[(docsCountPromise, docsFindPromise)];
+
+    const pageCount = Math.ceil(docsCount / take);
+
+    const pageMetaData = {
+      page: parseInt(page, 10),
+      take: parseInt(take, 10),
+      itemsCount,
+      pageCount,
+      hasPreviousPage: page > 1,
+      hasNextPage: page < pageCount,
+    };
+
+    return { items, pageMetaData };
   };
-
-  return { items, pageMetaData };
 };
 
 module.exports = paginate;

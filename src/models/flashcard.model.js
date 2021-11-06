@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const paginate = require('../utils/paginate');
 
 const flashcardSchema = new Schema(
   {
@@ -39,6 +40,8 @@ const flashcardSchema = new Schema(
   },
   { timestamps: true },
 );
+
+flashcardSchema.plugin(paginate);
 
 const flashcardModel = model('flashcard', flashcardSchema, 'flashcard');
 
