@@ -1,8 +1,10 @@
 const httpStatus = require('http-status');
 const createFlashcard = require('../services/flashcard/create.service');
 const getAllFlashcards = require('../services/flashcard/getAll.service');
+const getOneFlashCard = require('../services/flashcard/getOne.service');
 const createTopic = require('../services/topic/create.service');
 const getOneTopicByTitleOrId = require('../services/topic/getOne.service');
+const Exception = require('../utils/exception');
 const handleSuccess = require('../utils/successfulHandler');
 
 const createNewFlashcard = async (req, res, next) => {
@@ -49,4 +51,19 @@ const getFlashcards = async (req, res, next) => {
   }
 };
 
-module.exports = { createNewFlashcard, getFlashcards };
+const getDetailFlashcard = async (req, res, next) => {
+  try {
+    const { flashcardId } = req.params;
+
+    const flashcard = await getOneFlashCard(flashcardId);
+    if (!flashcard) {
+      throw new Exception(httpStatus.NOT_FOUND, 'Flashcard Not Found');
+    }
+
+    return handleSuccess(res, { flashcard }, httpStatus.OK);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createNewFlashcard, getFlashcards, getDetailFlashcard };

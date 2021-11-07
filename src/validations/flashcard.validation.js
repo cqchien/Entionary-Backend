@@ -17,4 +17,14 @@ const getFlashcardsValidationSchema = {
   }),
 };
 
-module.exports = { createNewFlashcardValidationSchema, getFlashcardsValidationSchema };
+const getDetailFlashcardValidationSchema = {
+  params: Joi.object().keys({
+    flashcardId: Joi.string().required(),
+  }),
+};
+
+module.exports = {
+  createNewFlashcardValidationSchema,
+  getFlashcardsValidationSchema,
+  getDetailFlashcardValidationSchema,
+};
