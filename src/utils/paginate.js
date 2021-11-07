@@ -60,18 +60,21 @@ const paginate = async (schema) => {
     //   { path: ' flashcard', populate: { path: 'word', populate: 'sentence' }}
     // ]
     if (population) {
-      const populateOptions = population.split(',').map((populationOption) => populationOption
-        .split('.')
-        .reverse()
-        .reduce((a, b) => ({ path: b, populate: a })));
-      docsFindPromise.populate(populateOptions);
+      population.split(',').forEach((populateOption) => {
+        docsFindPromise.populate(
+          populateOption
+            .split('.')
+            .reverse()
+            .reduce((a, b) => ({ path: b, populate: a }), null),
+        );
+      });
     }
 
     const [docsCount, docs] = await Promise.all([docsCountPromise, docsFindPromise]);
 
     const pageCount = Math.ceil(docsCount / take);
 
-    const paginateMetaData = {
+    const paginationMetaData = {
       page: pageQuery,
       take,
       docsCount,
@@ -80,7 +83,7 @@ const paginate = async (schema) => {
       hasNextPage: page < pageCount,
     };
 
-    return { docs, paginateMetaData };
+    return { docs, paginationMetaData };
   };
 };
 

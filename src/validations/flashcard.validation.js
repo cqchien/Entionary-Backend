@@ -9,4 +9,12 @@ const createNewFlashcardValidationSchema = {
   }),
 };
 
-module.exports = createNewFlashcardValidationSchema;
+const getFlashcardsValidationSchema = {
+  query: Joi.object().keys({
+    page: Joi.number().required(),
+    take: Joi.number().required(),
+    sortBy: Joi.string().empty(''),
+  }),
+};
+
+module.exports = { createNewFlashcardValidationSchema, getFlashcardsValidationSchema };
