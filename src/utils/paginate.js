@@ -31,7 +31,9 @@ const paginate = async (schema) => {
   // add static functions to your model.
   // sort format: (name:DESC,day:asc)
   // eslint-disable-next-line no-param-reassign
-  schema.static.paginate = async ({ page, take, sortBy, population }) => {
+  schema.static.paginate = async ({
+    page, take, sortBy, population,
+  }) => {
     // format sort to fit with params for .sort(params) in mongoose
     // params format: '-name day'. It means: name:DESC and day:asc.
     // - means DESC
@@ -39,15 +41,15 @@ const paginate = async (schema) => {
     // const sort = formatSort(sortBy);
 
     // if sorBy = {name: 'asc', day: 'desc'}, you dont need to format.
-    const sort = sortBy ? sortBy : { createdAt: 'desc' };
+    const sort = sortBy || { createdAt: 'desc' };
 
     const limit = take && parseInt(take, 10) > 0 ? parseInt(take, 10) : 7;
-    const page = page && parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
+    const pageQuery = page && parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
     const skip = (page - 1) * take;
 
-    const docsCountPromise = model.countDocuments().exec();
+    const docsCountPromise = schema.countDocuments().exec();
 
-    const docsFindPromise = model.find().sort(sort).limit(limit).skip(skip);
+    const docsFindPromise = schema.find().sort(sort).limit(limit).skip(skip);
 
     // handle populate
     // example data: 'flashcard.topic.card , flashcard.word.sentence'
@@ -56,31 +58,28 @@ const paginate = async (schema) => {
     //   { path: 'flashcard', populate: { path: 'topic', populate: 'card ' } },
     //   { path: ' flashcard', populate: { path: 'word', populate: 'sentence' }}
     // ]
-    let populateOptions;
     if (population) {
-      populateOptions = population.split(',').map((populationOption) => {
-        return populationOption
-          .split('.')
-          .reverse()
-          .reduce((a, b) => ({ path: b, populate: a }));
-      });
+      const populateOptions = population.split(',').map((populationOption) => populationOption
+        .split('.')
+        .reverse()
+        .reduce((a, b) => ({ path: b, populate: a })));
+      docsFindPromise.populate(populateOptions);
     }
-    docsFindPromise.populate(populateOptions);
 
     const [docsCount, docs] = await Promise.all[(docsCountPromise, docsFindPromise)];
 
     const pageCount = Math.ceil(docsCount / take);
 
-    const pageMetaData = {
-      page: parseInt(page, 10),
-      take: parseInt(take, 10),
-      itemsCount,
+    const paginateMetaData = {
+      page: pageQuery,
+      take,
+      docsCount,
       pageCount,
       hasPreviousPage: page > 1,
       hasNextPage: page < pageCount,
     };
 
-    return { docs, pageMetaData };
+    return { docs, paginateMetaData };
   };
 };
 
