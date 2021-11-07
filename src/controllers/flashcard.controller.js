@@ -1,9 +1,8 @@
 const httpStatus = require('http-status');
-const flashcardModel = require('../models/flashcard.model');
 const createFlashcard = require('../services/flashcard/create.service');
+const getAllFlashcards = require('../services/flashcard/getAll.service');
 const createTopic = require('../services/topic/create.service');
 const getOneTopicByTitleOrId = require('../services/topic/getOne.service');
-const paginate = require('../utils/paginate');
 const handleSuccess = require('../utils/successfulHandler');
 
 const createNewFlashcard = async (req, res, next) => {
@@ -33,15 +32,21 @@ const createNewFlashcard = async (req, res, next) => {
   }
 };
 
-const getAllFlashcards = async (req, res, next) => {
+const getFlashcards = async (req, res, next) => {
   try {
-    const { page, take } = req.query;
-    const { items, pageMetaData } = await paginate({ page, take, model: flashcardModel });
+    const { page, take, sortBy } = req.query;
+    const paginationOptions = {
+      page,
+      take,
+      sortBy,
+      population: 'topic',
+    };
+    const { flashcards, pagination } = await getAllFlashcards(paginationOptions);
 
-    return handleSuccess(res, { flashcards: items }, httpStatus.OK, '', pageMetaData);
+    return handleSuccess(res, { flashcards }, httpStatus.OK, '', pagination);
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { createNewFlashcard, getAllFlashcards };
+module.exports = { createNewFlashcard, getFlashcards };
