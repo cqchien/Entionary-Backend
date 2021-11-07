@@ -30,10 +30,11 @@
 const paginate = async (schema) => {
   // add static functions to your model.
   // sort format: (name:DESC,day:asc)
+  // use peer function (mustn't use arrow function) to call this in function.
   // eslint-disable-next-line no-param-reassign
-  schema.static.paginate = async ({
+  schema.statics.paginate = async function ({
     page, take, sortBy, population,
-  }) => {
+  }) {
     // format sort to fit with params for .sort(params) in mongoose
     // params format: '-name day'. It means: name:DESC and day:asc.
     // - means DESC
@@ -47,9 +48,9 @@ const paginate = async (schema) => {
     const pageQuery = page && parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
     const skip = (page - 1) * take;
 
-    const docsCountPromise = schema.countDocuments().exec();
+    const docsCountPromise = this.countDocuments().exec();
 
-    const docsFindPromise = schema.find().sort(sort).limit(limit).skip(skip);
+    const docsFindPromise = this.find().sort(sort).limit(limit).skip(skip);
 
     // handle populate
     // example data: 'flashcard.topic.card , flashcard.word.sentence'
@@ -66,7 +67,7 @@ const paginate = async (schema) => {
       docsFindPromise.populate(populateOptions);
     }
 
-    const [docsCount, docs] = await Promise.all[(docsCountPromise, docsFindPromise)];
+    const [docsCount, docs] = await Promise.all([docsCountPromise, docsFindPromise]);
 
     const pageCount = Math.ceil(docsCount / take);
 
