@@ -159,22 +159,22 @@ paths:
         - flashcard
       security:
         - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                page:
-                  type: number
-                  default: 1
-                take:
-                  type: number
-                  default: 7
-                sortBy:
-                  type: string
-                  default: ''
+      parameters: 
+        - name: page
+          in: query
+          required: true
+          description: Page Number 
+          default: 1
+        - name: take
+          in: query
+          required: true
+          description: Number Of Items Which You Want To Take 
+          default: 7
+        - name: sortBy
+          in: query
+          required: true
+          description: Sort Column 
+          default: ''
       responses:
         '200':
           description: OK
@@ -233,7 +233,11 @@ paths:
         - flashcard
       security:
         - bearerAuth: []
-      parameters: [{ name: id, in: path, required: true, description: Flashcard Id }]
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: Flashcard Id
 
       responses:
         '201':
