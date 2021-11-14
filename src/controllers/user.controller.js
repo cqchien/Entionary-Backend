@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const checkVerifyCode = require('../services/user/checkVerifyCode.service');
 const getUserByEmailOrId = require('../services/user/getOne.service');
-const updateUser = require('../services/user/update.service');
+const updateOneUser = require('../services/user/updateOne.service');
 const Exception = require('../utils/exception');
 const handleSuccess = require('../utils/successfulHandler');
 const verifyCode = require('../constant/verifyCode');
@@ -69,7 +69,7 @@ const resetPassword = async (req, res, next) => {
     }
 
     // Update password
-    await updateUser(userDetail._id, { password });
+    await updateOneUser(userDetail._id, { password });
 
     return handleSuccess(res, {}, httpStatus.OK, 'Reset Password Successfully');
   } catch (error) {

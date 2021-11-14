@@ -23,14 +23,12 @@ const wordSchema = new Schema(
     },
     synonyms: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'word',
+        type: String,
       },
     ],
     antonyms: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'word',
+        type: String,
       },
     ],
     picture: {
