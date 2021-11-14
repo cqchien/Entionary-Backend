@@ -25,12 +25,6 @@ const flashcardSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'topic',
     },
-    sentences: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'sentence',
-      },
-    ],
     stars: [
       {
         type: Schema.Types.ObjectId,

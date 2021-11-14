@@ -7,14 +7,12 @@ const wordSchema = new Schema(
       required: true,
       trim: true,
     },
-    type: [
-      {
-        type: String,
-        require: true,
-        enum: ['n', 'adj', 'adv', 'v', 'con', 'pre', 'pro', 'det'],
-      },
-    ],
-    mean: {
+    type: {
+      type: String,
+      require: true,
+    },
+
+    definition: {
       type: String,
       required: true,
       trim: true,
@@ -38,7 +36,7 @@ const wordSchema = new Schema(
     picture: {
       type: String,
     },
-    phonetic: {
+    pronunciation: {
       type: String,
     },
     star: [
