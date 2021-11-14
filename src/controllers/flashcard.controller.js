@@ -2,8 +2,11 @@ const httpStatus = require('http-status');
 const createFlashcard = require('../services/flashcard/create.service');
 const getAllFlashcards = require('../services/flashcard/getAll.service');
 const getOneFlashCard = require('../services/flashcard/getOne.service');
+const updateOneFlashcard = require('../services/flashcard/updateOne.service');
 const createTopic = require('../services/topic/create.service');
 const getOneTopicByTitleOrId = require('../services/topic/getOne.service');
+const createWord = require('../services/word/create.service');
+const getOneWord = require('../services/word/getOne.service');
 const Exception = require('../utils/exception');
 const handleSuccess = require('../utils/successfulHandler');
 
@@ -66,4 +69,36 @@ const getDetailFlashcard = async (req, res, next) => {
   }
 };
 
-module.exports = { createNewFlashcard, getFlashcards, getDetailFlashcard };
+const addWordToFlashcard = async (req, res, next) => {
+  try {
+    const { flashcardId } = req.params;
+    const wordInfo = req.body;
+
+    const flashcard = await getOneFlashCard(flashcardId);
+    if (!flashcard) {
+      throw new Exception(httpStatus.NOT_FOUND, 'Flashcard Not Found');
+    }
+    // Check word is exist in db
+    let wordInDB = await getOneWord(wordInfo);
+    // If not exist, create new word
+    if (!wordInDB) {
+      wordInDB = await createWord(wordInfo);
+    }
+    // Add word in db
+    const dataUpdate = {
+      word: wordInDB._id,
+    };
+
+    await updateOneFlashcard(flashcardId, dataUpdate);
+    return handleSuccess(res, {}, httpStatus.OK, 'Add Word To Flashcard Successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createNewFlashcard,
+  getFlashcards,
+  getDetailFlashcard,
+  addWordToFlashcard,
+};

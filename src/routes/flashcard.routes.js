@@ -1,8 +1,17 @@
 const { Router } = require('express');
-const { createNewFlashcard, getFlashcards, getDetailFlashcard } = require('../controllers/flashcard.controller');
+const {
+  createNewFlashcard,
+  getFlashcards,
+  getDetailFlashcard,
+  addWordToFlashcard,
+} = require('../controllers/flashcard.controller');
 const checkToken = require('../middlewares/checkToken.middleware');
 const validate = require('../middlewares/validate.middleware');
-const { createNewFlashcardValidationSchema, getFlashcardsValidationSchema, getDetailFlashcardValidationSchema } = require('../validations/flashcard.validation');
+const {
+  createNewFlashcardValidationSchema,
+  getFlashcardsValidationSchema,
+  getDetailFlashcardValidationSchema,
+} = require('../validations/flashcard.validation');
 
 const router = Router();
 
@@ -12,4 +21,5 @@ router.post('/', validate(createNewFlashcardValidationSchema), createNewFlashcar
 router.get('/', validate(getFlashcardsValidationSchema), getFlashcards);
 router.get('/:flashcardId', validate(getDetailFlashcardValidationSchema), getDetailFlashcard);
 
+router.post('/:flashcardId/word', addWordToFlashcard);
 module.exports = router;
