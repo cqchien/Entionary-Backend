@@ -159,21 +159,21 @@ paths:
         - flashcard
       security:
         - bearerAuth: []
-      parameters: 
+      parameters:
         - name: page
           in: query
           required: true
-          description: Page Number 
+          description: Page Number
           default: 1
         - name: take
           in: query
           required: true
-          description: Number Of Items Which You Want To Take 
+          description: Number Of Items Which You Want To Take
           default: 7
         - name: sortBy
           in: query
           required: true
-          description: Sort Column 
+          description: Sort Column
           default: ''
       responses:
         '200':
@@ -233,7 +233,7 @@ paths:
         - flashcard
       security:
         - bearerAuth: []
-      parameters: 
+      parameters:
         - name: id
           in: path
           required: true
@@ -242,6 +242,64 @@ paths:
       responses:
         '201':
           description: Detail Flashcard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flashcard'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Server Interval
+
+  /flashcard/{id}/word:
+    patch:
+      summary: Add New Word To Card
+      tags:
+        - flashcard
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Flashcard Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                word:
+                  type: string
+                  required: true
+                type:
+                  type: string
+                  required: true
+                definition:
+                  type: string
+                  require: true
+                pronunciation:
+                  type: string
+                example:
+                  type: string
+                picture:
+                  type: string
+                synonyms:
+                  type: array
+                  items:
+                    type: string,
+                    default: ''
+                antonyms:
+                  type: array
+                  items:
+                    type: string,
+                    default: ''
+
+      responses:
+        '201':
           content:
             application/json:
               schema:
@@ -285,10 +343,7 @@ components:
           type: number
           minimum: 0
           maximum: 999
-        flashcards:
-          type: array
-          items:
-            $ref: '#/components/schemas/Flashcard'
+
         verifyCode:
           type: object
           properties:
@@ -320,10 +375,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Word'
-        sentences:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sentence'
+
         stars:
           type: array
           items:
@@ -346,22 +398,17 @@ components:
           type: string
         type:
           type: string
-          enum: ['n', 'adj', 'adv', 'v', 'con', 'pre', 'pro', 'det']
-        mean:
+        definition:
           type: string
         example:
           type: string
         synonyms:
-          type: array
-          items:
-            $ref: '#/components/schemas/Word'
+          type: string
         antonyms:
-          type: array
-          items:
-            $ref: '#/components/schemas/Word'
+          type: string
         picture:
           type: string
-        phonetic:
+        pronunciation:
           type: string
         star:
           type: array
