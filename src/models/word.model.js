@@ -37,12 +37,6 @@ const wordSchema = new Schema(
     pronunciation: {
       type: String,
     },
-    star: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-      },
-    ],
   },
   { timestamps: true },
 );
