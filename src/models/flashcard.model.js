@@ -25,12 +25,10 @@ const flashcardSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'topic',
     },
-    createdBy: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-      },
-    ],
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { timestamps: true },
 );
