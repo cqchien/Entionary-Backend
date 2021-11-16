@@ -15,6 +15,8 @@ const createNewFlashcard = async (req, res, next) => {
     const {
       name, picture, topicTitle, isPublic,
     } = req.body;
+    const { id } = req.user;
+
     // check the exist of topic
     let topic = await getOneTopicByTitleOrId({ title: topicTitle });
 
@@ -29,6 +31,7 @@ const createNewFlashcard = async (req, res, next) => {
       picture,
       isPublic,
       topicId: topic._id,
+      userId: id,
     });
 
     return handleSuccess(res, {}, httpStatus.CREATED, 'Create Flashcard Successfully');
