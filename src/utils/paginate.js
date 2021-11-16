@@ -33,7 +33,7 @@ const paginate = async (schema) => {
   // use peer function (mustn't use arrow function) to call this in function.
   // eslint-disable-next-line no-param-reassign
   schema.statics.paginate = async function ({
-    page, take, sortBy, population,
+    page, take, sortBy, population, queryOptions,
   }) {
     // format sort to fit with params for .sort(params) in mongoose
     // params format: '-name day'. It means: name:DESC and day:asc.
@@ -50,7 +50,10 @@ const paginate = async (schema) => {
 
     const docsCountPromise = this.countDocuments().exec();
 
-    const docsFindPromise = this.find().sort(sort).limit(limit).skip(skip);
+    const docsFindPromise = this.find({ ...queryOptions })
+      .sort(sort)
+      .limit(limit)
+      .skip(skip);
 
     // handle populate
     // example data: 'flashcard.topic.card , flashcard.word.sentence'

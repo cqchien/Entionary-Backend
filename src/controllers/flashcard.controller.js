@@ -40,13 +40,19 @@ const createNewFlashcard = async (req, res, next) => {
 const getFlashcards = async (req, res, next) => {
   try {
     const { page, take, sortBy } = req.query;
+    const { id } = req.user;
+
     const paginationOptions = {
       page,
       take,
       sortBy,
       population: 'topic',
     };
-    const { flashcards, pagination } = await getAllFlashcards(paginationOptions);
+
+    const queryOptions = {
+      $or: [{ createdBy: id }, { isPublic: true }],
+    };
+    const { flashcards, pagination } = await getAllFlashcards(paginationOptions, queryOptions);
 
     return handleSuccess(res, { flashcards }, httpStatus.OK, '', pagination);
   } catch (error) {
