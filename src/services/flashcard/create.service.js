@@ -1,13 +1,13 @@
 const flashcardModel = require('../../models/flashcard.model');
 
 const createFlashcard = async ({
-  name, topicId, isPublic, picture, userId,
+  name, topic, isPublic, picture, userId,
 }) => {
   const flashcard = await flashcardModel.create({
     name,
     picture,
     isPublic,
-    topic: topicId,
+    topic,
     createdBy: userId,
   });
   return flashcard;

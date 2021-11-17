@@ -208,6 +208,8 @@ paths:
                   type: string
                 topicTitle:
                   type: string
+                topicIcon:
+                  type: string
                 isPublic:
                   type: boolean
                   default: true

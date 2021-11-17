@@ -5,6 +5,7 @@ const createNewFlashcardValidationSchema = {
     name: Joi.string().required(),
     picture: Joi.string().empty(''),
     topicTitle: Joi.string().required(),
+    topicIcon: Joi.string().required(),
     isPublic: Joi.boolean().required(),
   }),
 };

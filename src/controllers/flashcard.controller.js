@@ -3,8 +3,6 @@ const createFlashcard = require('../services/flashcard/create.service');
 const getAllFlashcards = require('../services/flashcard/getAll.service');
 const getOneFlashCard = require('../services/flashcard/getOne.service');
 const updateOneFlashcard = require('../services/flashcard/updateOne.service');
-const createTopic = require('../services/topic/create.service');
-const getOneTopicByTitleOrId = require('../services/topic/getOne.service');
 const createWord = require('../services/word/create.service');
 const getOneWord = require('../services/word/getOne.service');
 const Exception = require('../utils/exception');
@@ -13,24 +11,16 @@ const handleSuccess = require('../utils/successfulHandler');
 const createNewFlashcard = async (req, res, next) => {
   try {
     const {
-      name, picture, topicTitle, isPublic,
+      name, picture, topicTitle, topicIcon, isPublic,
     } = req.body;
     const { id } = req.user;
-
-    // check the exist of topic
-    let topic = await getOneTopicByTitleOrId({ title: topicTitle });
-
-    // If the topic not exist -> create new topic
-    if (!topic) {
-      topic = await createTopic({ title: topicTitle });
-    }
 
     // Create new Flashcard
     await createFlashcard({
       name,
       picture,
       isPublic,
-      topicId: topic._id,
+      topic: { title: topicTitle, icon: topicIcon },
       userId: id,
     });
 
@@ -49,7 +39,6 @@ const getFlashcards = async (req, res, next) => {
       page,
       take,
       sortBy,
-      population: 'topic',
     };
 
     const queryOptions = {
