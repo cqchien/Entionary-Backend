@@ -293,12 +293,12 @@ paths:
                   type: array
                   items:
                     type: string,
-                    default: ''
+                    default: 'string'
                 antonyms:
                   type: array
                   items:
                     type: string,
-                    default: ''
+                    default: 'string'
 
       responses:
         '201':
@@ -330,22 +330,13 @@ components:
           format: email
         name:
           type: string
-        role:
-          type: string
-          enum: [user, admin]
         avatar:
           type: string
         password:
           type: string
-        coin:
+        score:
           type: number
-          minimum: 0
-          maximum: 999999
-        numberOfStars:
-          type: number
-          minimum: 0
-          maximum: 999
-
+          default: 0
         verifyCode:
           type: object
           properties:
@@ -377,26 +368,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Word'
-
-        stars:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-    Sentence:
-      type: object
-      properties:
-        content:
-          type: string
-        mean:
-          type: string
-        stars:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
     Word:
       type: object
       properties:
-        content:
+        word:
           type: string
         type:
           type: string
@@ -405,32 +380,25 @@ components:
         example:
           type: string
         synonyms:
-          type: string
+          type: array
+          items:
+            type: string 
         antonyms:
-          type: string
+          type: array
+          items:
+            type: string 
         picture:
           type: string
         pronunciation:
           type: string
-        star:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-    Topic:
-      type: object
-      properties:
-        title:
-          type: string
-        words:
-          type: array
-          items:
-            $ref: '#/components/schemas/Word'
-        sentences:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sentence'
-        icon:
-          type: string
+        topic:
+          type: object
+          properties:
+            title: 
+              type: string
+            icon:
+              type: string
+          
     Error:
       type: object
       properties:
