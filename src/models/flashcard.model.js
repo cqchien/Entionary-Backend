@@ -15,16 +15,22 @@ const flashcardSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    topic: {
+      title: {
+        type: String,
+        required: true,
+      },
+      icon: {
+        type: String,
+        required: true,
+      },
+    },
     words: [
       {
         type: Schema.Types.ObjectId,
         ref: 'word',
       },
     ],
-    topic: {
-      type: Schema.Types.ObjectId,
-      ref: 'topic',
-    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'user',

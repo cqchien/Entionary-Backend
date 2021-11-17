@@ -1,8 +1,5 @@
 const { Schema, model } = require('mongoose');
 const validator = require('validator');
-const roles = require('../constant/role');
-const coin = require('../constant/coin');
-const star = require('../constant/star');
 const verifyCode = require('../constant/verifyCode');
 const password = require('../constant/password');
 
@@ -32,29 +29,10 @@ const userSchema = new Schema(
       required: true,
       minLength: password.MIN,
     },
-    role: {
-      type: String,
-      enum: [roles.ADMIN, roles.USER],
-      default: 'USER',
-    },
-    coin: {
+    score: {
       type: Number,
-      default: coin.DEFAULT,
-      minimum: coin.MIN,
-      maximum: coin.MAX,
+      default: 0,
     },
-    numberOfStars: {
-      type: Number,
-      default: star.DEFAULT,
-      minimum: star.MIN,
-      maximum: star.MAX,
-    },
-    flashcards: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'flashcard',
-      },
-    ],
     verifyCode: {
       code: {
         type: Number,
