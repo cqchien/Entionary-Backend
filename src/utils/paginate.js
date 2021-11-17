@@ -44,16 +44,22 @@ const paginate = async (schema) => {
     // if sorBy = {name: 'asc', day: 'desc'}, you dont need to format.
     const sort = sortBy || { createdAt: 'desc' };
 
-    const limit = take && parseInt(take, 10) > 0 ? parseInt(take, 10) : 7;
-    const pageQuery = page && parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
-    const skip = (page - 1) * take;
+    let docsFindPromise;
+    let pageQuery = 1;
+    if (take && parseInt(take, 10) > 0 && page && parseInt(page, 10)) {
+      const limit = parseInt(take, 10);
+      pageQuery = parseInt(page, 10);
+      const skip = (pageQuery - 1) * limit;
+
+      docsFindPromise = this.find({ ...queryOptions })
+        .sort(sort)
+        .limit(limit)
+        .skip(skip);
+    } else {
+      docsFindPromise = this.find({ ...queryOptions });
+    }
 
     const docsCountPromise = this.countDocuments().exec();
-
-    const docsFindPromise = this.find({ ...queryOptions })
-      .sort(sort)
-      .limit(limit)
-      .skip(skip);
 
     // handle populate
     // example data: 'flashcard.topic.card , flashcard.word.sentence'

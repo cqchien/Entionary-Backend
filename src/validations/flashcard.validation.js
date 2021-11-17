@@ -11,9 +11,9 @@ const createNewFlashcardValidationSchema = {
 
 const getFlashcardsValidationSchema = {
   query: Joi.object().keys({
-    page: Joi.number().required(),
-    take: Joi.number().required(),
-    sortBy: Joi.string().empty(''),
+    page: Joi.number(),
+    take: Joi.number(),
+    sortBy: Joi.string(),
   }),
 };
 
