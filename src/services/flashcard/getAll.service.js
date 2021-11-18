@@ -1,6 +1,6 @@
 const flashcardModel = require('../../models/flashcard.model');
 
-const getAllFlashcards = async (paginationOptions, queryOptions) => {
+const getAllFlashcards = async ({ paginationOptions, queryOptions }) => {
   const {
     page, take, sortBy, population,
   } = paginationOptions;

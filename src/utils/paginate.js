@@ -61,12 +61,8 @@ const paginate = async (schema) => {
     const docsCountPromise = this.countDocuments({ ...queryOptions }).exec();
 
     // handle populate
-    // example data: 'flashcard.topic.card , flashcard.word.sentence'
+    // example data: 'topic , word'
     // data to populate:
-    // [
-    //   { path: 'flashcard', populate: { path: 'topic', populate: 'card ' } },
-    //   { path: ' flashcard', populate: { path: 'word', populate: 'sentence' }}
-    // ]
     if (population) {
       population.split(',').forEach((populateOption) => {
         docsFindPromise.populate(
