@@ -45,12 +45,11 @@ const paginate = async (schema) => {
     const sort = sortBy || { createdAt: 'desc' };
 
     let docsFindPromise;
-    let pageQuery = 1;
-    if (take && parseInt(take, 10) > 0 && page && parseInt(page, 10)) {
-      const limit = parseInt(take, 10);
-      pageQuery = parseInt(page, 10);
-      const skip = (pageQuery - 1) * limit;
+    const pageQuery = parseInt(page, 10);
+    const limit = parseInt(take, 10);
+    const skip = (pageQuery - 1) * limit;
 
+    if (take && page) {
       docsFindPromise = this.find({ ...queryOptions })
         .sort(sort)
         .limit(limit)
@@ -59,7 +58,7 @@ const paginate = async (schema) => {
       docsFindPromise = this.find({ ...queryOptions });
     }
 
-    const docsCountPromise = this.countDocuments().exec();
+    const docsCountPromise = this.countDocuments({ ...queryOptions }).exec();
 
     // handle populate
     // example data: 'flashcard.topic.card , flashcard.word.sentence'
@@ -81,15 +80,15 @@ const paginate = async (schema) => {
 
     const [docsCount, docs] = await Promise.all([docsCountPromise, docsFindPromise]);
 
-    const pageCount = Math.ceil(docsCount / take);
+    const pageCount = Math.ceil(docsCount / limit);
 
     const paginationMetaData = {
       page: pageQuery,
-      take,
+      take: limit,
       docsCount,
       pageCount,
-      hasPreviousPage: page > 1,
-      hasNextPage: page < pageCount,
+      hasPreviousPage: pageQuery > 1,
+      hasNextPage: pageQuery < pageCount,
     };
 
     return { docs, paginationMetaData };
