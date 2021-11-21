@@ -21,14 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // enable cors
-const corsOption = {
-  origin: 'http://47.254.250.188:5000',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false,
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOption));
+app.use(cors());
 
 app.options('*', cors());
 
