@@ -21,9 +21,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // enable cors
-app.use(cors());
-
-app.options('*', cors());
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5000',
+      'http://localhost:5001',
+      'https://https://entionary-frontend.vercel.app',
+      'https://entionary.herokuapp.com/',
+      'http://47.254.250.188',
+    ],
+  }),
+);
 
 // API routes
 app.use('/', router);
