@@ -17,7 +17,7 @@ const swaggerDef = {
   },
   servers: [
     {
-      url: `${config.server.URL_DEPLOY}`,
+      url: 'https://phpmyad.kargomyanmar.com',
       description: 'Online',
     },
     {
